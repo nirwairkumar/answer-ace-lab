@@ -1,0 +1,175 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { useTest } from '@/contexts/TestContext';
+import { testData } from '@/data/questions';
+import { ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+
+const TestPage = () => {
+  const { 
+    studentName, 
+    currentQuestionIndex, 
+    setCurrentQuestionIndex, 
+    answers, 
+    addAnswer,
+    setIsTestCompleted 
+  } = useTest();
+  const navigate = useNavigate();
+
+  const currentQuestion = testData.questions[currentQuestionIndex];
+  const totalQuestions = testData.questions.length;
+  const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+
+  const currentAnswer = answers.find(a => a.questionId === currentQuestion?.id)?.selectedAnswer;
+
+  const handleAnswerSelect = (option: 'A' | 'B' | 'C' | 'D') => {
+    if (currentQuestion) {
+      addAnswer(currentQuestion.id, option);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const handleSubmitTest = () => {
+    if (answers.length < totalQuestions) {
+      const unanswered = totalQuestions - answers.length;
+      toast({
+        title: "Incomplete Test",
+        description: `You have ${unanswered} unanswered question(s). Please answer all questions before submitting.`,
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsTestCompleted(true);
+    navigate('/results');
+  };
+
+  if (!studentName) {
+    navigate('/');
+    return null;
+  }
+
+  if (!currentQuestion) {
+    return <div>Loading...</div>;
+  }
+
+  const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+  const canSubmit = answers.length === totalQuestions;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/10 p-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Hello, {studentName}</h1>
+            <p className="text-muted-foreground">{testData.title}</p>
+          </div>
+          <div className="text-right">
+            <div className="text-sm text-muted-foreground">Question</div>
+            <div className="text-lg font-semibold text-primary">
+              {currentQuestionIndex + 1} of {totalQuestions}
+            </div>
+          </div>
+        </div>
+
+        {/* Progress */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Progress</span>
+            <span className="text-primary font-medium">{Math.round(progress)}%</span>
+          </div>
+          <Progress value={progress} className="h-2" />
+        </div>
+
+        {/* Question Card */}
+        <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="text-xl leading-relaxed">
+              {currentQuestion.question}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {Object.entries(currentQuestion.options).map(([option, text]) => (
+              <button
+                key={option}
+                onClick={() => handleAnswerSelect(option as 'A' | 'B' | 'C' | 'D')}
+                className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 hover:scale-[1.02] ${
+                  currentAnswer === option
+                    ? 'border-primary bg-primary/10 text-primary font-medium'
+                    : 'border-border bg-card hover:border-primary/50 hover:bg-secondary/50'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center font-semibold ${
+                    currentAnswer === option
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'border-muted-foreground/30 text-muted-foreground'
+                  }`}>
+                    {option}
+                  </div>
+                  <span className="flex-1">{text}</span>
+                  {currentAnswer === option && (
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                  )}
+                </div>
+              </button>
+            ))}
+          </CardContent>
+        </Card>
+
+        {/* Navigation */}
+        <div className="flex justify-between items-center">
+          <Button
+            variant="outline"
+            onClick={handlePrevious}
+            disabled={currentQuestionIndex === 0}
+            className="flex items-center gap-2"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </Button>
+
+          <div className="text-sm text-muted-foreground">
+            {answers.length} of {totalQuestions} answered
+          </div>
+
+          {isLastQuestion ? (
+            <Button
+              onClick={handleSubmitTest}
+              disabled={!canSubmit}
+              className="flex items-center gap-2 bg-success hover:bg-success/90"
+            >
+              Submit Test
+              <CheckCircle className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button
+              onClick={handleNext}
+              className="flex items-center gap-2"
+            >
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TestPage;
