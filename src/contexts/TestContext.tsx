@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Question } from '@/data/questions';
+import { Question, TestData } from '@/data/questions';
 
 export interface StudentAnswer {
   questionId: number;
@@ -9,6 +9,8 @@ export interface StudentAnswer {
 interface TestContextType {
   studentName: string;
   setStudentName: (name: string) => void;
+  selectedTest: TestData | null;
+  setSelectedTest: (test: TestData) => void;
   currentQuestionIndex: number;
   setCurrentQuestionIndex: (index: number) => void;
   answers: StudentAnswer[];
@@ -34,6 +36,7 @@ interface TestProviderProps {
 
 export const TestProvider: React.FC<TestProviderProps> = ({ children }) => {
   const [studentName, setStudentName] = useState('');
+  const [selectedTest, setSelectedTest] = useState<TestData | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<StudentAnswer[]>([]);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
@@ -52,6 +55,7 @@ export const TestProvider: React.FC<TestProviderProps> = ({ children }) => {
 
   const resetTest = () => {
     setStudentName('');
+    setSelectedTest(null);
     setCurrentQuestionIndex(0);
     setAnswers([]);
     setIsTestCompleted(false);
@@ -61,6 +65,8 @@ export const TestProvider: React.FC<TestProviderProps> = ({ children }) => {
     <TestContext.Provider value={{
       studentName,
       setStudentName,
+      selectedTest,
+      setSelectedTest,
       currentQuestionIndex,
       setCurrentQuestionIndex,
       answers,

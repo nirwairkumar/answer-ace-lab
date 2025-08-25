@@ -4,13 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useTest } from '@/contexts/TestContext';
-import { testData } from '@/data/questions';
+import { allTests } from '@/data/questions';
 import { ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const TestPage = () => {
   const { 
-    studentName, 
+    studentName,
+    selectedTest,
     currentQuestionIndex, 
     setCurrentQuestionIndex, 
     answers, 
@@ -19,8 +20,8 @@ const TestPage = () => {
   } = useTest();
   const navigate = useNavigate();
 
-  const currentQuestion = testData.questions[currentQuestionIndex];
-  const totalQuestions = testData.questions.length;
+  const currentQuestion = selectedTest?.questions[currentQuestionIndex];
+  const totalQuestions = selectedTest?.questions.length || 0;
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
   const currentAnswer = answers.find(a => a.questionId === currentQuestion?.id)?.selectedAnswer;
@@ -58,7 +59,7 @@ const TestPage = () => {
     navigate('/results');
   };
 
-  if (!studentName) {
+  if (!studentName || !selectedTest) {
     navigate('/');
     return null;
   }
@@ -77,7 +78,7 @@ const TestPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground">Hello, {studentName}</h1>
-            <p className="text-muted-foreground">{testData.title}</p>
+            <p className="text-muted-foreground">{selectedTest.title}</p>
           </div>
           <div className="text-right">
             <div className="text-sm text-muted-foreground">Question</div>

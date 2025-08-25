@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useTest } from '@/contexts/TestContext';
-import { testData } from '@/data/questions';
+import { allTests } from '@/data/questions';
 import { 
   Trophy, 
   RotateCcw, 
@@ -15,17 +15,17 @@ import {
 } from 'lucide-react';
 
 const ResultsPage = () => {
-  const { studentName, answers, resetTest, isTestCompleted } = useTest();
+  const { studentName, selectedTest, answers, resetTest, isTestCompleted } = useTest();
   const navigate = useNavigate();
 
-  if (!studentName || !isTestCompleted) {
+  if (!studentName || !selectedTest || !isTestCompleted) {
     navigate('/');
     return null;
   }
 
-  const totalQuestions = testData.questions.length;
+  const totalQuestions = selectedTest.questions.length;
   const correctAnswers = answers.filter(answer => {
-    const question = testData.questions.find(q => q.id === answer.questionId);
+    const question = selectedTest?.questions.find(q => q.id === answer.questionId);
     return question && question.correctAnswer === answer.selectedAnswer;
   }).length;
 
@@ -118,7 +118,7 @@ const ResultsPage = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {testData.questions.map((question, index) => {
+            {selectedTest.questions.map((question, index) => {
               const userAnswer = answers.find(a => a.questionId === question.id);
               const isCorrect = userAnswer?.selectedAnswer === question.correctAnswer;
               
