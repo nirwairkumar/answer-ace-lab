@@ -35,8 +35,16 @@ const StudentEntry = () => {
             <GraduationCap className="h-10 w-10 text-primary" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-foreground">Class Test Platform</h1>
-            <p className="text-muted-foreground mt-2 text-lg">Choose your test and enter your details to begin</p>
+            <h1 className="text-4xl font-bold text-foreground">D.EL.Ed Practice Platform</h1>
+            <p className="text-muted-foreground mt-2 text-lg">
+  <h2>कैसे शुरू करें?</h2>
+  <ol>
+    <li><b>अपना नाम भरें:</b> सबसे पहले अपना नाम दर्ज करें।</li>
+    <li><b>टेस्ट चुनें:</b> लिस्ट में से टेस्ट का चुनाव करें।</li>
+    <li><b>टेस्ट शुरू करें:</b> नीचे दिए गए "Start Test" बटन पर क्लिक करें और टेस्ट दीजिए।</li>
+  </ol>
+
+</p>
           </div>
         </div>
 
