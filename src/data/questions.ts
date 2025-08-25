@@ -28,6 +28,22 @@ export interface TestData {
 
 export const allTests: TestData[] = [
   {
+    title: "Hindi Language and Literature Test",
+    description: "Objective questions on Hindi poetry, grammar, samas, alankar, and language comprehension for Bihar Deled Exam preparation",
+    questions: [
+      {
+        id: 1,
+        question: "निम्नलिखित पंक्तियों में कौन सा रस है? 'शोभित कर नवनीत लिए घुटूनी चलत रेनू तन मंडित मुख दधि लेप किए।'",
+        options: {
+          A: "वीर रस",
+          B: "श्रृंगार रस",
+          C: "वात्सल्य रस",
+          D: "करुण रस"
+        },
+        correctAnswer: "C"
+      }]
+  },
+  {
     title: "Mathematics Test",
     description: "Basic mathematics and arithmetic problems",
     questions: [
