@@ -18,6 +18,9 @@ interface TestContextType {
   resetTest: () => void;
   isTestCompleted: boolean;
   setIsTestCompleted: (completed: boolean) => void;
+  timeRemaining: number;
+  setTimeRemaining: React.Dispatch<React.SetStateAction<number>>;
+  totalTestTime: number;
 }
 
 const TestContext = createContext<TestContextType | undefined>(undefined);
@@ -40,6 +43,9 @@ export const TestProvider: React.FC<TestProviderProps> = ({ children }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<StudentAnswer[]>([]);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  
+  const totalTestTime = selectedTest ? selectedTest.questions.length * 60 : 0; // 1 minute per question
 
   const addAnswer = (questionId: number, answer: 'A' | 'B' | 'C' | 'D') => {
     setAnswers(prev => {
@@ -59,6 +65,7 @@ export const TestProvider: React.FC<TestProviderProps> = ({ children }) => {
     setCurrentQuestionIndex(0);
     setAnswers([]);
     setIsTestCompleted(false);
+    setTimeRemaining(0);
   };
 
   return (
@@ -73,7 +80,10 @@ export const TestProvider: React.FC<TestProviderProps> = ({ children }) => {
       addAnswer,
       resetTest,
       isTestCompleted,
-      setIsTestCompleted
+      setIsTestCompleted,
+      timeRemaining,
+      setTimeRemaining,
+      totalTestTime
     }}>
       {children}
     </TestContext.Provider>

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useTest } from '@/contexts/TestContext';
 import { allTests } from '@/data/questions';
-import { ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle, Clock } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const TestPage = () => {
@@ -16,15 +16,52 @@ const TestPage = () => {
     setCurrentQuestionIndex, 
     answers, 
     addAnswer,
-    setIsTestCompleted 
+    setIsTestCompleted,
+    isTestCompleted,
+    timeRemaining,
+    setTimeRemaining,
+    totalTestTime
   } = useTest();
   const navigate = useNavigate();
+
+  const timerInitialized = React.useRef(false);
 
   const currentQuestion = selectedTest?.questions[currentQuestionIndex];
   const totalQuestions = selectedTest?.questions.length || 0;
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
   const currentAnswer = answers.find(a => a.questionId === currentQuestion?.id)?.selectedAnswer;
+
+  // Initialize timer when test starts
+  useEffect(() => {
+    if (selectedTest && timeRemaining === 0) {
+      setTimeRemaining(totalTestTime);
+    }
+  }, [selectedTest, totalTestTime, timeRemaining, setTimeRemaining]);
+
+  // Timer countdown effect
+  useEffect(() => {
+    if (timeRemaining > 0 && !isTestCompleted) {
+      if (!timerInitialized.current) {
+        timerInitialized.current = true;
+      }
+      const timer = setInterval(() => {
+        setTimeRemaining((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+    if (timeRemaining === 0 && selectedTest && timerInitialized.current && !isTestCompleted) {
+      // Auto-submit when time runs out
+      handleSubmitTest();
+    }
+  }, [timeRemaining, isTestCompleted, setTimeRemaining, selectedTest]);
+
+  // Format time display
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   const handleAnswerSelect = (option: 'A' | 'B' | 'C' | 'D') => {
     if (currentQuestion) {
@@ -45,7 +82,7 @@ const TestPage = () => {
   };
 
   const handleSubmitTest = () => {
-    if (answers.length < totalQuestions) {
+    if (answers.length < totalQuestions && timeRemaining > 0) {
       const unanswered = totalQuestions - answers.length;
       toast({
         title: "Incomplete Test",
@@ -53,6 +90,14 @@ const TestPage = () => {
         variant: "destructive"
       });
       return;
+    }
+    
+    if (timeRemaining === 0) {
+      toast({
+        title: "Time is over.",
+        description: "Please submit your test.",
+        variant: "default"
+      });
     }
     
     setIsTestCompleted(true);
@@ -80,10 +125,21 @@ const TestPage = () => {
             <h1 className="text-2xl font-bold text-foreground">Hello, {studentName}</h1>
             <p className="text-muted-foreground">{selectedTest.title}</p>
           </div>
-          <div className="text-right">
-            <div className="text-sm text-muted-foreground">Question</div>
-            <div className="text-lg font-semibold text-primary">
-              {currentQuestionIndex + 1} of {totalQuestions}
+          <div className="flex items-center gap-6">
+            <div className="text-right">
+              <div className="text-sm text-muted-foreground">Question</div>
+              <div className="text-lg font-semibold text-primary">
+                {currentQuestionIndex + 1} of {totalQuestions}
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm text-muted-foreground flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                Time Remaining
+              </div>
+              <div className={`text-lg font-semibold ${timeRemaining <= 60 ? 'text-destructive' : timeRemaining <= 180 ? 'text-warning' : 'text-primary'}`}>
+                {formatTime(timeRemaining)}
+              </div>
             </div>
           </div>
         </div>
