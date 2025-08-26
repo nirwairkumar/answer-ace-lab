@@ -24,6 +24,8 @@ const TestPage = () => {
   } = useTest();
   const navigate = useNavigate();
 
+  const timerInitialized = React.useRef(false);
+
   const currentQuestion = selectedTest?.questions[currentQuestionIndex];
   const totalQuestions = selectedTest?.questions.length || 0;
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
@@ -40,15 +42,19 @@ const TestPage = () => {
   // Timer countdown effect
   useEffect(() => {
     if (timeRemaining > 0 && !isTestCompleted) {
+      if (!timerInitialized.current) {
+        timerInitialized.current = true;
+      }
       const timer = setInterval(() => {
-        setTimeRemaining(timeRemaining - 1);
+        setTimeRemaining((prev) => prev - 1);
       }, 1000);
       return () => clearInterval(timer);
-    } else if (timeRemaining === 0 && selectedTest) {
+    }
+    if (timeRemaining === 0 && selectedTest && timerInitialized.current && !isTestCompleted) {
       // Auto-submit when time runs out
       handleSubmitTest();
     }
-  }, [timeRemaining, isTestCompleted, setTimeRemaining]);
+  }, [timeRemaining, isTestCompleted, setTimeRemaining, selectedTest]);
 
   // Format time display
   const formatTime = (seconds: number) => {
@@ -88,8 +94,8 @@ const TestPage = () => {
     
     if (timeRemaining === 0) {
       toast({
-        title: "Time's Up!",
-        description: "Test has been automatically submitted.",
+        title: "Time is over.",
+        description: "Please submit your test.",
         variant: "default"
       });
     }

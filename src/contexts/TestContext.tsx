@@ -19,7 +19,7 @@ interface TestContextType {
   isTestCompleted: boolean;
   setIsTestCompleted: (completed: boolean) => void;
   timeRemaining: number;
-  setTimeRemaining: (time: number) => void;
+  setTimeRemaining: React.Dispatch<React.SetStateAction<number>>;
   totalTestTime: number;
 }
 
