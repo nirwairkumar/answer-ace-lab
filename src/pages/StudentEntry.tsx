@@ -105,7 +105,7 @@ const StudentEntry = () => {
                     </p>
                     <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                       <Clock className="h-4 w-4" />
-                      <span>{test.questions.length} Questions</span>
+                      <span>{test.questions.length} Questions • {test.questions.length} minutes</span>
                     </div>
                   </CardContent>
                 </Card>
