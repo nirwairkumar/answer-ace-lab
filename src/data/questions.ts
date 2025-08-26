@@ -418,7 +418,7 @@ correctAnswer: "B"
   //     }
   //   ]
   // },
-  { title: "सामाजिक अध्ययन-D.El.Ed बिहार परीक्षा",description: "Bihar D.El.Ed परीक्षा के लिए सामाजिक अध्ययन के 20 पिछली परीक्षाओं के प्रश्न (हिंदी माध्यम)",
+  { title: "सामाजिक अध्ययन-D.El.Ed बिहार परीक्षा",description: "Previous Year Objective Questions",
   questions: [
     {
       id: 1,
@@ -642,7 +642,7 @@ correctAnswer: "B"
     }
   ]
 },
-{title: "Hindi-D.El.Ed Bihar परीक्षा",description: "Bihar D.El.Ed परीक्षा के लिए हिंदी विषय के 25 पिछली परीक्षाओं से वस्तुनिष्ठ प्रश्न",
+{title: "Hindi-D.El.Ed Bihar परीक्षा",description: "Previous Year Objective Questions",
   questions: [
     {
       id: 1,
@@ -921,7 +921,7 @@ correctAnswer: "B"
     }
   ]
 },
-{title: "General English - D.El.Ed Bihar परीक्षा",description: "Bihar D.El.Ed परीक्षा के लिए जनरल इंग्लिश के 20 वस्तुनिष्ठ प्रश्न",
+{title: "General English - D.El.Ed Bihar परीक्षा",description: "Previous Year Objective Questions",
   questions: [
     {
       id: 1,
@@ -1145,7 +1145,7 @@ correctAnswer: "B"
     }
   ]
 },
-{title: "Science - D.El.Ed Bihar परीक्षा",description: "Bihar D.El.Ed परीक्षा के लिए विज्ञान विषय के 20 पिछली परीक्षाओं से वस्तुनिष्ठ प्रश्न (हिंदी माध्यम)",
+{title: "Science - D.El.Ed Bihar परीक्षा",description: "Previous Year Objective Questions",
   questions: [
     {
       id: 1,
@@ -1369,7 +1369,7 @@ correctAnswer: "B"
     }
   ]
 },
-{title: "Mathematics-D.El.Ed Bihar परीक्षा",description: "Bihar D.El.Ed परीक्षा के लिए गणित विषय के 25 पिछली परीक्षाओं से वस्तुनिष्ठ प्रश्न (हिंदी माध्यम)",
+{title: "Mathematics-D.El.Ed Bihar परीक्षा",description: "Previous Year Objective Questions",
   questions: [
     {
       id: 1,
@@ -1648,7 +1648,7 @@ correctAnswer: "B"
     }
   ]
 },
-{title: "Reasoning - D.El.Ed Bihar परीक्षा",description: "Bihar D.El.Ed परीक्षा के लिए तर्कशक्ति और विश्लेषणात्मक क्षमता के 10 वस्तुनिष्ठ प्रश्न (हिन्दी माध्यम)",
+{title: "Reasoning - D.El.Ed Bihar परीक्षा",description: "Previous Year Objective Questions",
   questions: [
     {
       id: 1,
