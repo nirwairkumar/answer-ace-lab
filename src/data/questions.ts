@@ -359,66 +359,7 @@ D: "जवाबदेही"
 correctAnswer: "B"
 }]
   },
-  // { title: "subject name", description: "--------",
-  //   questions: [
-  //     {
-  //       id: 1,
-  //       question: "question number 1",
-  //       options: {
-  //         A: "Venus",
-  //         B: "Mars",
-  //         C: "Jupiter",
-  //         D: "Saturn"
-  //       },
-  //       correctAnswer: "B"
-  //     },
-  //     {
-  //       id: 2,
-  //       question: "question number 2",
-  //       options: {
-  //         A: "H2O",
-  //         B: "CO2",
-  //         C: "NaCl",
-  //         D: "O2"
-  //       },
-  //       correctAnswer: "A"
-  //     },
-  //     {
-  //       id: 3,
-  //       question: "question number 3",
-  //       options: {
-  //         A: "198",
-  //         B: "206",
-  //         C: "214",
-  //         D: "220"
-  //       },
-  //       correctAnswer: "B"
-  //     },
-  //     {
-  //       id: 4,
-  //       question: "question number 4",
-  //       options: {
-  //         A: "Oxygen",
-  //         B: "Nitrogen",
-  //         C: "Carbon Dioxide",
-  //         D: "Hydrogen"
-  //       },
-  //       correctAnswer: "C"
-  //     },
-  //     {
-  //       id: 5,
-  //       question: "question number 5",
-  //       options: {
-  //         A: "300,000 km/s",
-  //         B: "150,000 km/s",
-  //         C: "450,000 km/s",
-  //         D: "600,000 km/s"
-  //       },
-  //       correctAnswer: "A"
-  //     }
-  //   ]
-  // },
-  { title: "सामाजिक अध्ययन-D.El.Ed बिहार परीक्षा",description: "Previous Year Objective Questions",
+{ title: "सामाजिक अध्ययन-D.El.Ed बिहार परीक्षा",description: "Previous Year Objective Questions",
   questions: [
     {
       id: 1,
@@ -1761,7 +1702,7 @@ correctAnswer: "B"
       correctAnswer: "A"
     }
   ]
-}
+},
 
 
 
@@ -1773,4 +1714,30 @@ correctAnswer: "B"
 
 
 
+{ title: "subject name", description: "Sample test",
+    questions: [
+      {
+        id: 1,
+        question: "question number 1",
+        options: {
+          A: "Venus",
+          B: "Mars",
+          C: "Jupiter",
+          D: "Saturn"
+        },
+        correctAnswer: "B"
+      },
+      {
+        id: 2,
+        question: "question number 2",
+        options: {
+          A: "H2O",
+          B: "CO2",
+          C: "NaCl",
+          D: "O2"
+        },
+        correctAnswer: "A"
+      }
+    ]
+  }
 ];
