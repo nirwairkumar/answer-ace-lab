@@ -7,6 +7,7 @@ import { useTest } from '@/contexts/TestContext';
 import { allTests } from '@/data/questions';
 import { ChevronLeft, ChevronRight, CheckCircle, Clock } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const TestPage = () => {
   const { 
@@ -81,7 +82,7 @@ const TestPage = () => {
     }
   };
 
-  const handleSubmitTest = () => {
+  const handleSubmitTest = async () => {
     if (answers.length < totalQuestions && timeRemaining > 0) {
       const unanswered = totalQuestions - answers.length;
       toast({
@@ -98,6 +99,47 @@ const TestPage = () => {
         description: "Please submit your test.",
         variant: "default"
       });
+    }
+
+    // Calculate score and save to database
+    const correctAnswers = answers.filter(answer => {
+      const question = selectedTest?.questions.find(q => q.id === answer.questionId);
+      return question && question.correctAnswer === answer.selectedAnswer;
+    }).length;
+
+    try {
+      const { error } = await supabase
+        .from('test_results')
+        .insert({
+          test_name: selectedTest!.title,
+          student_name: studentName,
+          marks_scored: correctAnswers,
+          total_marks: totalQuestions
+        });
+
+      if (error) {
+        console.error('Error saving test result:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save test results. Please try again.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      toast({
+        title: "Test Submitted",
+        description: "Your test has been submitted successfully!",
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Error saving test result:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save test results. Please try again.",
+        variant: "destructive"
+      });
+      return;
     }
     
     setIsTestCompleted(true);
