@@ -1705,15 +1705,6 @@ correctAnswer: "B"
 },
 
 
-
-
-
-
-
-
-
-
-
 { title: "subject name", description: "Sample test",
     questions: [
       {
