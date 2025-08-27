@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTest } from '@/contexts/TestContext';
 import { allTests } from '@/data/questions';
-import { GraduationCap, BookOpen, Clock, ArrowRight } from 'lucide-react';
+import { GraduationCap, BookOpen, Clock, ArrowRight, BarChart3 } from 'lucide-react';
 
 const Homepage = () => {
   const { setSelectedTest } = useTest();
@@ -19,15 +19,27 @@ const Homepage = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-accent/10 p-4">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="text-center space-y-4 py-8">
-          <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
-            <GraduationCap className="h-10 w-10 text-primary" />
+        <div className="relative">
+          <div className="absolute top-4 left-4">
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/results')}
+              className="flex items-center gap-2"
+            >
+              <BarChart3 className="h-4 w-4" />
+              View Results
+            </Button>
           </div>
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">D.EL.Ed Practice Platform</h1>
-            <p className="text-muted-foreground mt-2 text-lg">
-              Choose a test from the available options below and start practicing
-            </p>
+          <div className="text-center space-y-4 py-8">
+            <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
+              <GraduationCap className="h-10 w-10 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">D.EL.Ed Practice Platform</h1>
+              <p className="text-muted-foreground mt-2 text-lg">
+                Choose a test from the available options below and start practicing
+              </p>
+            </div>
           </div>
         </div>
 
